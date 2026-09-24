@@ -45,6 +45,21 @@ async def serve(args):
     run_id = f"{args.provider}-{args.locale}-{int(time.time())}-{secrets.token_hex(3)}"
     output = ROOT / "work/benchmarks" / run_id
     output.mkdir(parents=True)
+    (output / "manifest.json").write_text(
+        json.dumps(
+            {
+                "run_id": run_id,
+                "provider": args.provider,
+                "locale": args.locale,
+                "approved_budget_usd": args.approved_budget_usd,
+                "budget_is_provider_hard_cap": False,
+                "target_seconds": 600,
+                "created_at": time.time(),
+            },
+            indent=2,
+        ),
+        encoding="utf-8",
+    )
     room_name = "replica-benchmark-" + secrets.token_hex(8)
     nonce = secrets.token_urlsafe(32)
     stopped = asyncio.Event()

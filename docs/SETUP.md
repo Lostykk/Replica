@@ -52,7 +52,9 @@ playwright y security-best-practices provienen del [catálogo oficial de OpenAI]
 
 ## Credenciales
 
-Usar los logins de cada CLI o copiar la plantilla .env.example a .env.local dentro de la app correspondiente. Las plantillas no contienen secretos. Los valores para proveedores se completarán con los nombres exactos que valide la Fase 1.
+Usar los logins de cada CLI o copiar la plantilla .env.example a .env.local dentro de la app correspondiente. Las plantillas no contienen secretos. Los nombres y modelos provisionales de Fase 1 están en apps/agent/.env.example; los valores privados los completa el owner.
+
+Para el ensayo de proveedores seguir docs/avatar-benchmark.md. El supervisor sirve una página privada en 127.0.0.1:4174 y guarda evidencia en work/benchmarks, ignorado por Git. Su ejecución por defecto es preflight offline; no crea una llamada.
 
 ## Lovable
 

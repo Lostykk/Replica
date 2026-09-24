@@ -9,6 +9,7 @@ from pathlib import Path
 import aiohttp
 from livekit import agents
 from livekit.agents import Agent, AgentServer, AgentSession, cli
+from livekit.agents.voice import room_io
 from livekit.plugins import cartesia, deepgram, openai, silero, simli, tavus
 
 server = AgentServer()
@@ -118,7 +119,11 @@ async def entrypoint(ctx: agents.JobContext):
                 encoding="utf-8",
             )
         await avatar.wait_for_join(timeout=45)
-        await session.start(room=ctx.room, agent=Agent(instructions=instructions))
+        await session.start(
+            room=ctx.room,
+            agent=Agent(instructions=instructions),
+            room_options=room_io.RoomOptions(participant_identity="benchmark-owner"),
+        )
         started = time.monotonic()
         event("active", provider=provider, locale=locale)
         await session.generate_reply(
