@@ -1,0 +1,57 @@
+{
+  "checkedAt": "2026-09-24T01:55:04.163Z",
+  "scope": "Ephemeral CI local Supabase; not the owner desktop or production.",
+  "services": [
+    {
+      "name": "supabase_db_replica",
+      "running": true,
+      "health": "healthy"
+    },
+    {
+      "name": "supabase_auth_replica",
+      "running": true,
+      "health": "healthy"
+    },
+    {
+      "name": "supabase_rest_replica",
+      "running": true,
+      "health": "no container healthcheck"
+    },
+    {
+      "name": "supabase_storage_replica",
+      "running": true,
+      "health": "healthy"
+    },
+    {
+      "name": "supabase_realtime_replica",
+      "running": true,
+      "health": "healthy"
+    },
+    {
+      "name": "supabase_studio_replica",
+      "running": true,
+      "health": "healthy"
+    },
+    {
+      "name": "supabase_pg_meta_replica",
+      "running": true,
+      "health": "healthy"
+    },
+    {
+      "name": "supabase_kong_replica",
+      "running": true,
+      "health": "healthy"
+    }
+  ],
+  "databaseQuery": "passed",
+  "authHealth": "passed",
+  "restSchema": "passed",
+  "mcp": {
+    "initialized": true,
+    "serverInfo": {
+      "name": "supabase",
+      "title": "Supabase",
+      "version": "0.11.0"
+    }
+  }
+}

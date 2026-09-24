@@ -1,0 +1,70 @@
+{
+  "checkedAt": "2026-09-24T01:55:20.013Z",
+  "scope": "Integration baseline of the Lovable shell, not approval of Phase 2 design or real calls.",
+  "results": [
+    {
+      "engine": "chromium",
+      "width": 390,
+      "colorScheme": "dark",
+      "routes": 4,
+      "navigation": "passed",
+      "runtimeErrors": 0
+    },
+    {
+      "engine": "chromium",
+      "width": 390,
+      "colorScheme": "light",
+      "routes": 4,
+      "navigation": "passed",
+      "runtimeErrors": 0
+    },
+    {
+      "engine": "chromium",
+      "width": 1440,
+      "colorScheme": "dark",
+      "routes": 4,
+      "navigation": "passed",
+      "runtimeErrors": 0
+    },
+    {
+      "engine": "chromium",
+      "width": 1440,
+      "colorScheme": "light",
+      "routes": 4,
+      "navigation": "passed",
+      "runtimeErrors": 0
+    },
+    {
+      "engine": "webkit",
+      "width": 390,
+      "colorScheme": "dark",
+      "routes": 4,
+      "navigation": "passed",
+      "runtimeErrors": 0
+    },
+    {
+      "engine": "webkit",
+      "width": 390,
+      "colorScheme": "light",
+      "routes": 4,
+      "navigation": "passed",
+      "runtimeErrors": 0
+    },
+    {
+      "engine": "webkit",
+      "width": 1440,
+      "colorScheme": "dark",
+      "routes": 4,
+      "navigation": "passed",
+      "runtimeErrors": 0
+    },
+    {
+      "engine": "webkit",
+      "width": 1440,
+      "colorScheme": "light",
+      "routes": 4,
+      "navigation": "passed",
+      "runtimeErrors": 0
+    }
+  ]
+}

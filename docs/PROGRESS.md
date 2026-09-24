@@ -20,3 +20,7 @@ Actualizado: 2026-09-23 (Argentina). Fase 0: integración en validación. Fase 1
 4. Pedir al owner únicamente cuentas, credenciales locales, aprobación de gasto y participación imprescindibles para mediciones reales. No presentar estimaciones como resultados.
 
 Todavía no existe conversación real verificada, despliegue ni benchmark de proveedores. Fases posteriores pendientes.
+
+## Cierre de Fase 0
+
+El gate de integración pasó para 340e619 en https://github.com/Lostykk/Replica/actions/runs/35944864815. Ver docs/evidence/fase-0/integration-gate.md y evidencias JSON/capturas. Se cierra Fase 0 con la excepción de entorno del ADR-0006; Fase 1 activa por solicitud expresa del owner. La instalación local parcial se recuperará cuando haya RAM disponible.
