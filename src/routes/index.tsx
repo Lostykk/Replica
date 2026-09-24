@@ -54,9 +54,7 @@ function Home() {
         </button>
       </div>
 
-      <p className="mt-10 text-sm text-muted-foreground">
-        Tu réplica está lista para hablar.
-      </p>
+      <p className="mt-10 text-sm text-muted-foreground">Tu réplica está lista para hablar.</p>
     </div>
   );
 }

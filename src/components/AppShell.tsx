@@ -1,13 +1,6 @@
 import { useState } from "react";
 import { Link, useMatchRoute } from "@tanstack/react-router";
-import {
-  Home,
-  PhoneCall,
-  Trophy,
-  Settings,
-  PanelLeftClose,
-  PanelLeftOpen,
-} from "lucide-react";
+import { Home, PhoneCall, Trophy, Settings, PanelLeftClose, PanelLeftOpen } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Wordmark } from "@/components/Wordmark";
 
@@ -36,14 +29,14 @@ function NavLinkContent({
       <Icon
         className={cn(
           "size-5 shrink-0 transition-colors",
-          active ? "text-primary" : "text-muted-foreground"
+          active ? "text-primary" : "text-muted-foreground",
         )}
       />
       {!collapsed && (
         <span
           className={cn(
             "truncate text-sm transition-colors",
-            active ? "text-foreground font-medium" : "text-muted-foreground"
+            active ? "text-foreground font-medium" : "text-muted-foreground",
           )}
         >
           {label}
@@ -73,13 +66,13 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       <aside
         className={cn(
           "sticky top-0 hidden h-screen shrink-0 flex-col border-r border-border/60 bg-card/40 backdrop-blur-sm transition-[width] duration-300 md:flex",
-          collapsed ? "w-[76px]" : "w-60"
+          collapsed ? "w-[76px]" : "w-60",
         )}
       >
         <div
           className={cn(
             "flex h-16 items-center border-b border-border/60",
-            collapsed ? "justify-center px-0" : "px-5"
+            collapsed ? "justify-center px-0" : "px-5",
           )}
         >
           {collapsed ? (
@@ -102,10 +95,16 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                   collapsed && "justify-center px-0",
                   active
                     ? "bg-secondary text-foreground"
-                    : "hover:bg-secondary/60 hover:text-foreground"
+                    : "hover:bg-secondary/60 hover:text-foreground",
                 )}
               >
-                <NavLinkContent to={to} label={label} icon={icon} collapsed={collapsed} active={active} />
+                <NavLinkContent
+                  to={to}
+                  label={label}
+                  icon={icon}
+                  collapsed={collapsed}
+                  active={active}
+                />
               </Link>
             );
           })}
@@ -117,7 +116,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             onClick={() => setCollapsed((c) => !c)}
             className={cn(
               "flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-muted-foreground transition-colors hover:bg-secondary/60 hover:text-foreground",
-              collapsed && "justify-center px-0"
+              collapsed && "justify-center px-0",
             )}
             aria-label={collapsed ? "Expandir sidebar" : "Colapsar sidebar"}
           >
@@ -139,9 +138,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       </div>
 
       {/* Main content */}
-      <main className="flex min-w-0 flex-1 flex-col pt-14 pb-20 md:pt-0 md:pb-0">
-        {children}
-      </main>
+      <main className="flex min-w-0 flex-1 flex-col pt-14 pb-20 md:pt-0 md:pb-0">{children}</main>
 
       {/* Mobile bottom tab bar */}
       <nav className="fixed inset-x-0 bottom-0 z-40 flex h-20 items-stretch border-t border-border/60 bg-background/90 backdrop-blur-md md:hidden">
@@ -156,13 +153,13 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               <Icon
                 className={cn(
                   "size-5 transition-colors",
-                  active ? "text-primary" : "text-muted-foreground"
+                  active ? "text-primary" : "text-muted-foreground",
                 )}
               />
               <span
                 className={cn(
                   "text-[11px] transition-colors",
-                  active ? "text-foreground font-medium" : "text-muted-foreground"
+                  active ? "text-foreground font-medium" : "text-muted-foreground",
                 )}
               >
                 {label}
