@@ -2,11 +2,10 @@
 
 No pegar secretos en el chat. Usar login oficial o archivos .env.local ignorados por Git. No es necesario contratar todos los servicios ahora.
 
-## Prioridad 0 — desbloquear la Fase 0
+## Prioridad 0 — estado de la integración
 
-- Memoria: cerrar por cuenta propia aplicaciones o el otro entorno de desarrollo que no se esté usando, o elegir Supabase staging; Windows reportó 7,24 GiB totales y aproximadamente 0–241 MiB libres durante el arranque, insuficiente para otro stack completo.
-- Lovable: iniciar sesión, crear el proyecto con docs/lovable-prompts/fase-0.md y conectar GitHub desde Project settings → Git → GitHub; compartir únicamente la URL del repositorio generado.
-- GitHub: sesión Lostykk ya verificada; existe Lostykk/Replica público y vacío, sin evidencia de conexión con Lovable; confirmar cuál será el repositorio del monorepo antes de publicar en él.
+- Lovable/GitHub: RESUELTO; el owner confirmó https://github.com/Lostykk/Replica.git como repositorio único. Frontend recibido de origin/main 0b6c8a5, integrado en la raíz sin submódulo.
+- Memoria local: para desarrollar con Supabase en esta computadora, cerrar por cuenta propia aplicaciones/entornos que no se usen; se volvieron a medir unos 100 MiB libres. El control de servicios se ejecutará en CI efímero sin tocar otros proyectos.
 
 ## Prioridad 1 — arquitectura y pruebas de Fases 1 a 5
 
@@ -45,4 +44,4 @@ No pegar secretos en el chat. Usar login oficial o archivos .env.local ignorados
 
 No se crearon cuentas, no se contrataron planes y no se ejecutaron llamadas pagas. Los accesos de proveedores todavía no están verificados.
 
-El arranque de Supabase de Réplica se canceló antes de crear contenedores, al constatar presión de memoria; no se tocaron los contenedores del otro proyecto. La CLI está instalada. Las imágenes descargadas quedan disponibles para reintentar; el MCP local está configurado y deshabilitado hasta validar el stack correcto.
+El arranque de Supabase de Réplica en la computadora se canceló antes de crear contenedores, al constatar presión de memoria. Las imágenes descargadas quedan disponibles para reintentar; el MCP de escritorio sigue deshabilitado hasta iniciar el stack correcto. El workflow verifica un stack local independiente en el runner; no sustituye una medición de RAM o funcionamiento del escritorio.

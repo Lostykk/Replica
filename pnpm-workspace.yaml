@@ -10,4 +10,7 @@ allowBuilds:
   esbuild: true
   supabase: true
 
-# apps/web is the independent Lovable repository (ADR-0002).
+# The Lovable frontend remains at the workspace root (ADR-0002).
+
+overrides:
+  rolldown: 1.2.1

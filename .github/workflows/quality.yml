@@ -2,12 +2,15 @@ name: Quality
 on:
   push:
   pull_request:
+  workflow_dispatch:
 permissions:
   contents: read
 jobs:
   quality:
     runs-on: windows-latest
-    timeout-minutes: 20
+    timeout-minutes: 25
+    env:
+      PLAYWRIGHT_BROWSERS_PATH: ${{ github.workspace }}/.tools/browsers
     steps:
       - uses: actions/checkout@v4
         with:
@@ -17,12 +20,48 @@ jobs:
           node-version-file: .node-version
       - uses: pnpm/action-setup@v4
       - run: pnpm install --frozen-lockfile
+      - run: git config --local core.hooksPath .githooks
+      - run: pnpm qa:phase0
       - run: pnpm typecheck
       - run: pnpm lint
       - run: pnpm test
+      - run: pnpm build
       - name: Install verified official scanners
         shell: pwsh
         run: |
           New-Item -ItemType Directory -Path work -Force | Out-Null
           ./scripts/install-portable-tools.ps1
       - run: pnpm secrets:history
+      - run: pnpm exec playwright install chromium firefox webkit
+      - run: pnpm qa:browsers
+      - run: node scripts/verify-web.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: phase0-web-evidence
+          path: |
+            docs/evidence/fase-0
+            docs/screenshots/fase-0
+            work/frontend-server.log
+  supabase-local:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+      - uses: pnpm/action-setup@v4
+      - run: pnpm install --frozen-lockfile
+      - name: Start isolated local Supabase
+        run: pnpm exec supabase start -x logflare,vector,supavisor,imgproxy
+      - name: Verify service health and local MCP
+        run: pnpm exec node scripts/verify-supabase.mjs
+      - name: Stop only the runner's replica stack
+        if: always()
+        run: pnpm exec supabase stop
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: phase0-supabase-evidence
+          path: docs/evidence/fase-0/supabase-ci.json

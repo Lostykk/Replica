@@ -5,7 +5,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const required = ['apps/web', 'apps/agent', 'apps/meeting-bot-page', 'packages/shared', 'supabase/config.toml', 'docs/PROMPT_MAESTRO.md', 'docs/PROGRESS.md', 'docs/OWNER_ACTIONS.md', 'docs/QA_GATES.md', 'pnpm-lock.yaml', 'apps/agent/uv.lock', '.githooks/pre-commit', '.githooks/pre-push'];
+const required = ['src/router.tsx', 'src/routes/__root.tsx', 'vite.config.ts', '.lovable/project.json', 'apps/web/README.md', 'apps/agent', 'apps/meeting-bot-page', 'packages/shared', 'supabase/config.toml', 'docs/PROMPT_MAESTRO.md', 'docs/PROGRESS.md', 'docs/OWNER_ACTIONS.md', 'docs/QA_GATES.md', 'pnpm-lock.yaml', 'apps/agent/uv.lock', '.githooks/pre-commit', '.githooks/pre-push'];
 for (const item of required) if (!existsSync(path.join(root, item))) throw new Error(`Missing: ${item}`);
 const master = readFileSync(path.join(root, 'docs/PROMPT_MAESTRO.md'));
 if (createHash('sha256').update(master).digest('hex') !== '4808efc0501b1d63ad9f7689f4f68016ae4ba04815aa4379dcc9ff9a21db14c8') throw new Error('Master document changed; review and update expected hash explicitly.');
@@ -22,4 +22,7 @@ const ignored = execFileSync('git', ['check-ignore', '.env.local', 'apps/agent/.
 if (ignored.length !== 3) throw new Error('Secret/tool ignore rules incomplete.');
 const hooks = execFileSync('git', ['config', '--local', 'core.hooksPath'], { cwd: root, encoding: 'utf8' }).trim();
 if (hooks !== '.githooks') throw new Error('Local secret scanning hooks not configured.');
-console.log('Phase 0 local structure, master integrity, seven skills and secret exclusions: PASS. External access and remote publication are tracked separately in PROGRESS.md.');
+const origin = execFileSync('git', ['remote', 'get-url', 'origin'], { cwd: root, encoding: 'utf8' }).trim();
+if (origin !== 'https://github.com/Lostykk/Replica.git') throw new Error('Unexpected repository remote.');
+if (existsSync(path.join(root, '.gitmodules'))) throw new Error('The single Lovable repository must not contain a self-referencing submodule.');
+console.log('Phase 0 structure, Lovable root, confirmed origin, master integrity, seven skills and secret exclusions: PASS. Service health and remote CI are separate gates.');

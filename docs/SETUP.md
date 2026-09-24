@@ -14,7 +14,7 @@ pnpm test
 pnpm qa:browsers
 ```
 
-Los comandos de activate.ps1 afectan solo esa terminal. No cambian la configuración permanente del sistema. El frontend se clonará desde el repositorio que genere Lovable.
+Los comandos de activate.ps1 afectan solo esa terminal. No cambian la configuración permanente del sistema. El frontend de Lovable ya está integrado en src y public en la raíz del mismo repositorio; pnpm dev conserva su entrada original.
 
 ## Herramientas y fuentes
 
@@ -56,4 +56,8 @@ Usar los logins de cada CLI o copiar la plantilla .env.example a .env.local dent
 
 ## Lovable
 
-La [documentación oficial de Lovable](https://docs.lovable.dev/integrations/github) establece que la conexión crea un repositorio nuevo. No admite importar un repositorio GitHub existente como proyecto nuevo. Por eso el repositorio vacío Lostykk/Replica no prueba una conexión y no se reutiliza automáticamente para el frontend.
+El owner confirmó el repositorio generado por Lovable: Lostykk/Replica. El frontend permanece en la raíz para preservar la [sincronización oficial](https://docs.lovable.dev/integrations/github); no crear otro checkout ni un submódulo autorreferente.
+
+La integración conserva las historias mediante merge. pnpm-lock.yaml fija las dependencias del monorepo; bun.lock se mantiene actualizado para el instalador de Lovable. Bun 1.4.2 también está instalado de forma aislada en .tools/bun-runtime para regenerar el lockfile sin cambiar el sistema.
+
+El workflow Quality verifica tipado, lint, tests, build del frontend, escaneo de secretos, navegadores y navegación del shell. Otro job inicia Supabase local en Linux y prueba sus servicios y MCP. El escritorio sigue necesitando memoria libre para correr ese stack; los resultados CI no se presentan como pruebas locales del equipo.
