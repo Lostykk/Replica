@@ -5,7 +5,7 @@ No pegar secretos en el chat. Usar login oficial o archivos .env.local ignorados
 ## Prioridad 0 — estado de la integración
 
 - Lovable/GitHub: RESUELTO; el owner confirmó https://github.com/Lostykk/Replica.git como repositorio único. Frontend recibido de origin/main 0b6c8a5, integrado en la raíz sin submódulo.
-- Memoria local: para desarrollar con Supabase en esta computadora, cerrar por cuenta propia aplicaciones/entornos que no se usen; se volvieron a medir unos 100 MiB libres. El control de servicios se ejecutará en CI efímero sin tocar otros proyectos.
+- Memoria local: para desarrollar con Supabase en esta computadora, cerrar por cuenta propia aplicaciones/entornos que no se usen; se midieron unos 100 MiB libres. El control de servicios ya pasó en CI efímero sin tocar otros proyectos; falta verificar el stack en el escritorio cuando haya memoria suficiente.
 
 ## Prioridad 1 — arquitectura y pruebas de Fases 1 a 5
 
@@ -50,10 +50,10 @@ El arranque de Supabase de Réplica en la computadora se canceló antes de crear
 
 La Fase0 ya está integrada en main y pasó CI (run35944864815). React19 está aprobado. No hay ninguna acción pendiente en Lovable para esta fase.
 
-1. En apps/agent/.env.local completar LIVEKIT_URL/API_KEY/API_SECRET, OPENAI_API_KEY, DEEPGRAM_API_KEY, CARTESIA_API_KEY, CARTESIA_VOICE_AR/MX, SIMLI_API_KEY/FACE_ID, TAVUS_API_KEY/FACE_ID/PAL_ID. Copiar primero .env.example para conservar modelos públicos. No compartir los valores en chat.
+1. En apps/agent/.env.local completar LIVEKIT_URL/API_KEY/API_SECRET, OPENAI_API_KEY, DEEPGRAM_API_KEY, CARTESIA_API_KEY, CARTESIA_VOICE_AR/MX, SIMLI_API_KEY/FACE_ID, TAVUS_API_KEY/FACE_ID/PAL_ID. El archivo privado ya está creado, con claves vacías y modelos públicos; conservar esos modelos y no sobrescribir claves existentes. No compartir los valores en chat.
 2. Confirmar que caras y voces son stock con licencia y establecer BENCHMARK_STOCK_ASSETS_CONFIRMED=true. Tavus PAL echo+LiveKit. No clonar caras/voces.
 3. Confirmar precio efectivo Simli/min y límite≥95min para futura llamada larga. Para benchmark usar un plan/trial Tavus de≥12min continuos; Free/Starter5min no alcanza. No se autoriza ni se compra automáticamente Builder59USD o Growth397USD.
-4. Autorizar presupuesto de consumo variable; propuesta10USD para cuatro pruebas10min, condicionado a tarifa y cuentas. Suscripciones aparte. Configurar hard caps en cada proveedor, porque el argumento de presupuesto del script no controla su facturación externa.
+4. Autorizar presupuesto de consumo variable; propuesta de hasta 10 USD para cuatro pruebas de 10 min, condicionada a tarifa y cuentas. No es una garantía de que las cuatro entren en ese monto: recalcular con las tarifas efectivas y reducir o detener ensayos antes de excederlo. Suscripciones aparte. Configurar hard caps en cada proveedor, porque el argumento de presupuesto del script no controla su facturación externa.
 5. Liberar memoria cerrando lo que el owner elija y participar con micrófono/auriculares en las cuatro pruebas. Medir labios/expresiones requiere evaluación humana; el código y la planilla ya están preparados.
 
 El ensayo local no necesita todavía Supabase cloud, Railway deploy, Twilio, Recall ni Stripe. Esas cuentas siguen listadas arriba para sus fases posteriores.

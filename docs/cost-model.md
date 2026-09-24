@@ -42,4 +42,6 @@ Tavus: sensibilidad0,31–0,37/min con pipeline propio produce **40,43–46,91US
 
 Cuatro ejecuciones: Simli es-AR/es-MX y Tavus es-AR/es-MX,10min cada una, secuenciales. Proponer **10USD de consumo variable máximo para autorizar**, sujeto a tarifa Simli confirmada y límites configurados en las cuentas. Suscripciones y compras no están incluidas ni autorizadas. Tavus gratuito/Starter no alcanza10min continuos; hace falta plan/trial apto. Si requiere contratar Builder59USD, el owner debe resolverlo separadamente.
 
+Los 10 USD son un límite propuesto, no una garantía de que alcancen para las cuatro pruebas. Antes de cada ejecución, incluir arranque/cierre y saldos consumidos en el cálculo con las tarifas efectivas; reducir la cantidad de pruebas o detenerse si no entra en el remanente.
+
 El parámetro de presupuesto del script deja constancia de autorización; **no reemplaza un hard cap del proveedor**. Hay timeout de sesión y supervisor, pero la tarifa es externa. Reconciliar minutos/unidades con dashboard/factura, registrar monto real y referencias privadas antes de declarar costo medido. No enviar facturas con datos personales a este repo público.
