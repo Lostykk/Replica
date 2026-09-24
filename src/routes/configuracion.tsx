@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Settings } from "lucide-react";
+import { EmptyState } from "@/components/EmptyState";
 
 export const Route = createFileRoute("/configuracion")({
   head: () => ({
@@ -20,10 +20,9 @@ export const Route = createFileRoute("/configuracion")({
 
 function Configuracion() {
   return (
-    <div className="flex flex-1 flex-col items-center justify-center gap-3 px-6">
-      <Settings className="size-8 text-muted-foreground/50" />
-      <h1 className="font-display text-xl font-semibold">Configuración</h1>
-      <p className="text-sm text-muted-foreground">Los ajustes llegan muy pronto.</p>
+    <div className="flex min-h-[calc(100vh-64px)] flex-col items-center justify-center gap-10 px-6 py-12 lg:min-h-screen">
+      <h1 className="text-2xl font-semibold text-foreground">Configuración</h1>
+      <EmptyState />
     </div>
   );
 }

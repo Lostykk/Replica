@@ -1,14 +1,15 @@
 import { useState } from "react";
 import { Link, useMatchRoute } from "@tanstack/react-router";
-import { Home, PhoneCall, Trophy, Settings, PanelLeftClose, PanelLeftOpen } from "lucide-react";
+import { House, Phone, Trophy, Settings, PanelLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Wordmark } from "@/components/Wordmark";
+import { Button } from "@/components/ui/button";
+import { ReplicaLogo } from "@/components/ReplicaLogo";
 
 const NAV_ITEMS = [
-  { to: "/", label: "Home", icon: Home },
-  { to: "/llamadas", label: "Llamadas", icon: PhoneCall },
+  { to: "/", label: "Home", icon: House },
+  { to: "/llamadas", label: "Llamadas", icon: Phone },
   { to: "/ranking", label: "Ranking", icon: Trophy },
-  { to: "/configuracion", label: "Configuración", icon: Settings },
+  { to: "/configuracion", label: "Config", icon: Settings },
 ] as const;
 
 function NavLinkContent({
@@ -20,7 +21,7 @@ function NavLinkContent({
 }: {
   to: string;
   label: string;
-  icon: typeof Home;
+  icon: typeof House;
   collapsed?: boolean;
   active: boolean;
 }) {
@@ -28,15 +29,15 @@ function NavLinkContent({
     <>
       <Icon
         className={cn(
-          "size-5 shrink-0 transition-colors",
-          active ? "text-primary" : "text-muted-foreground",
+          "size-5 shrink-0 transition-colors duration-200",
+          active ? "text-primary" : "text-tertiary",
         )}
       />
       {!collapsed && (
         <span
           className={cn(
-            "truncate text-sm transition-colors",
-            active ? "text-foreground font-medium" : "text-muted-foreground",
+            "truncate text-sm transition-colors duration-200",
+            active ? "font-medium text-primary" : "text-tertiary",
           )}
         >
           {label}
@@ -59,26 +60,24 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <div className="flex min-h-screen bg-background">
-      <div className="noise-overlay" aria-hidden="true" />
-
+    <div className="relative min-h-screen bg-background">
       {/* Desktop sidebar */}
       <aside
         className={cn(
-          "sticky top-0 hidden h-screen shrink-0 flex-col border-r border-border/60 bg-card/40 backdrop-blur-sm transition-[width] duration-300 md:flex",
-          collapsed ? "w-[76px]" : "w-60",
+          "fixed inset-y-0 left-0 z-30 hidden flex-col border-r border-border bg-surface transition-[width] duration-200 ease-out lg:flex",
+          collapsed ? "w-16" : "w-[220px]",
         )}
       >
         <div
           className={cn(
-            "flex h-16 items-center border-b border-border/60",
-            collapsed ? "justify-center px-0" : "px-5",
+            "flex h-16 items-center border-b border-border",
+            collapsed ? "justify-center" : "px-5",
           )}
         >
           {collapsed ? (
-            <span className="font-display text-lg font-bold text-primary">r</span>
+            <ReplicaLogo compact />
           ) : (
-            <Wordmark className="text-xl" />
+            <ReplicaLogo />
           )}
         </div>
 
@@ -91,11 +90,11 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                 to={to}
                 title={collapsed ? label : undefined}
                 className={cn(
-                  "flex items-center gap-3 rounded-lg px-3 py-2.5 transition-colors",
+                  "relative flex min-h-11 items-center gap-3 rounded-sm px-3 transition-colors duration-200",
                   collapsed && "justify-center px-0",
                   active
-                    ? "bg-secondary text-foreground"
-                    : "hover:bg-secondary/60 hover:text-foreground",
+                    ? "bg-elevated text-primary"
+                    : "text-tertiary hover:bg-elevated hover:text-foreground",
                 )}
               >
                 <NavLinkContent
@@ -110,56 +109,55 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           })}
         </nav>
 
-        <div className="border-t border-border/60 p-3">
-          <button
+        <div className="border-t border-border p-2.5">
+          <Button
             type="button"
+            variant="ghost"
             onClick={() => setCollapsed((c) => !c)}
             className={cn(
-              "flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-muted-foreground transition-colors hover:bg-secondary/60 hover:text-foreground",
+              "h-11 w-full justify-start gap-3 rounded-sm px-3 text-sm text-tertiary hover:bg-elevated hover:text-foreground",
               collapsed && "justify-center px-0",
             )}
             aria-label={collapsed ? "Expandir sidebar" : "Colapsar sidebar"}
           >
-            {collapsed ? (
-              <PanelLeftOpen className="size-5 shrink-0" />
-            ) : (
-              <>
-                <PanelLeftClose className="size-5 shrink-0" />
-                <span>Colapsar</span>
-              </>
-            )}
-          </button>
+            <PanelLeft className={cn("size-5 shrink-0 transition-transform", collapsed && "rotate-180")} strokeWidth={1.5} />
+            {!collapsed && <span>Colapsar</span>}
+          </Button>
         </div>
       </aside>
 
-      {/* Mobile header */}
-      <div className="fixed inset-x-0 top-0 z-40 flex h-14 items-center border-b border-border/60 bg-background/80 px-4 backdrop-blur-sm md:hidden">
-        <Wordmark className="text-lg" />
-      </div>
-
       {/* Main content */}
-      <main className="flex min-w-0 flex-1 flex-col pt-14 pb-20 md:pt-0 md:pb-0">{children}</main>
+      <main
+        className={cn(
+          "relative z-10 flex min-h-screen min-w-0 flex-col pb-[calc(64px+env(safe-area-inset-bottom,0px))] transition-[margin] duration-200 ease-out lg:pb-0",
+          collapsed ? "lg:ml-16" : "lg:ml-[220px]",
+        )}
+      >
+        {children}
+      </main>
 
       {/* Mobile bottom tab bar */}
-      <nav className="fixed inset-x-0 bottom-0 z-40 flex h-20 items-stretch border-t border-border/60 bg-background/90 backdrop-blur-md md:hidden">
+      <nav className="fixed inset-x-0 bottom-0 z-40 flex h-[calc(64px+env(safe-area-inset-bottom,0px))] items-start border-t border-border bg-surface/95 pb-[env(safe-area-inset-bottom,0px)] backdrop-blur-xl lg:hidden">
         {NAV_ITEMS.map(({ to, label, icon: Icon }) => {
           const active = isActive(to);
           return (
             <Link
               key={to}
               to={to}
-              className="flex flex-1 flex-col items-center justify-center gap-1.5"
+              className="relative flex h-16 flex-1 flex-col items-center justify-center gap-1"
             >
+              {active && <span className="active-tab-indicator absolute inset-x-3 top-[-1px] h-0.5 bg-primary" />}
               <Icon
                 className={cn(
-                  "size-5 transition-colors",
-                  active ? "text-primary" : "text-muted-foreground",
+                  "size-5 transition-colors duration-200",
+                  active ? "text-primary" : "text-tertiary",
                 )}
+                strokeWidth={1.5}
               />
               <span
                 className={cn(
-                  "text-[11px] transition-colors",
-                  active ? "text-foreground font-medium" : "text-muted-foreground",
+                  "text-[11px] transition-colors duration-200",
+                  active ? "font-medium text-primary" : "text-tertiary",
                 )}
               >
                 {label}

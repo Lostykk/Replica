@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Trophy } from "lucide-react";
+import { EmptyState } from "@/components/EmptyState";
 
 export const Route = createFileRoute("/ranking")({
   head: () => ({
@@ -17,10 +17,9 @@ export const Route = createFileRoute("/ranking")({
 
 function Ranking() {
   return (
-    <div className="flex flex-1 flex-col items-center justify-center gap-3 px-6">
-      <Trophy className="size-8 text-muted-foreground/50" />
-      <h1 className="font-display text-xl font-semibold">Ranking</h1>
-      <p className="text-sm text-muted-foreground">El ranking se publica pronto.</p>
+    <div className="flex min-h-[calc(100vh-64px)] flex-col items-center justify-center gap-10 px-6 py-12 lg:min-h-screen">
+      <h1 className="text-2xl font-semibold text-foreground">Ranking</h1>
+      <EmptyState />
     </div>
   );
 }
