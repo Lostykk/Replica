@@ -21,7 +21,7 @@ function Llamadas() {
       <PhoneCall className="size-8 text-muted-foreground/50" />
       <h1 className="font-display text-xl font-semibold">Llamadas</h1>
       <p className="text-sm text-muted-foreground">
-        Todavía no hay llamadas. Empzá tu primera desde el Home.
+        Todavía no hay llamadas. Empezá tu primera desde el Home.
       </p>
     </div>
   );
