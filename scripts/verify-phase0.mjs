@@ -23,6 +23,6 @@ if (ignored.length !== 3) throw new Error('Secret/tool ignore rules incomplete.'
 const hooks = execFileSync('git', ['config', '--local', 'core.hooksPath'], { cwd: root, encoding: 'utf8' }).trim();
 if (hooks !== '.githooks') throw new Error('Local secret scanning hooks not configured.');
 const origin = execFileSync('git', ['remote', 'get-url', 'origin'], { cwd: root, encoding: 'utf8' }).trim();
-if (origin !== 'https://github.com/Lostykk/Replica.git') throw new Error('Unexpected repository remote.');
+if (origin.replace(/\.git$/, '').replace(/\/$/, '') !== 'https://github.com/Lostykk/Replica') throw new Error('Unexpected repository remote.');
 if (existsSync(path.join(root, '.gitmodules'))) throw new Error('The single Lovable repository must not contain a self-referencing submodule.');
 console.log('Phase 0 structure, Lovable root, confirmed origin, master integrity, seven skills and secret exclusions: PASS. Service health and remote CI are separate gates.');
