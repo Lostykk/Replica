@@ -1,0 +1,12 @@
+[project]
+name = "replica-agent"
+version = "0.0.0"
+description = "Worker persistente de conversaciones de entrenamiento de Replica"
+requires-python = ">=3.12,<3.13"
+dependencies = []
+
+[dependency-groups]
+dev = ["ruff", "pytest"]
+
+[tool.uv]
+package = false

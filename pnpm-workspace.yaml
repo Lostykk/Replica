@@ -1,0 +1,13 @@
+packages:
+  - apps/meeting-bot-page
+  - packages/*
+
+allowBuilds:
+  '@railway/cli': true
+  '@twilio/cli-core': true
+  twilio-cli: true
+  yarn: false
+  esbuild: true
+  supabase: true
+
+# apps/web is the independent Lovable repository (ADR-0002).

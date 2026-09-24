@@ -1,0 +1,20 @@
+﻿[
+    {
+        "sha256":  "bcd059b5be584c2a09a8bcb2c0e091983b0734c89575aa7a14dab8e405d08825",
+        "url":  "https://github.com/livekit/livekit-cli/releases/download/v2.18.8/lk_2.18.8_windows_amd64.zip",
+        "tool":  "livekit",
+        "version":  "v2.18.8"
+    },
+    {
+        "sha256":  "b3ec881acb4f78fd5b968cfa893cea7ae0cbb3ff2ad20d5be77b126323cca468",
+        "url":  "https://github.com/stripe/stripe-cli/releases/download/v1.51.1/stripe_1.51.1_windows_x86_64.zip",
+        "tool":  "stripe",
+        "version":  "v1.51.1"
+    },
+    {
+        "sha256":  "d29144deff3a68aa93ced33dddf84b7fdc26070add4aa0f4513094c8332afc4e",
+        "url":  "https://github.com/gitleaks/gitleaks/releases/download/v8.30.1/gitleaks_8.30.1_windows_x64.zip",
+        "tool":  "gitleaks",
+        "version":  "v8.30.1"
+    }
+]

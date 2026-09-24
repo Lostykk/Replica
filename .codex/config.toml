@@ -1,0 +1,17 @@
+# Project-only integrations; no global settings or credentials are changed.
+[mcp_servers.replica_supabase_local]
+url = "http://127.0.0.1:55321/mcp"
+startup_timeout_sec = 30
+# Enable only after the replica local stack passes its health checks.
+enabled = false
+
+[mcp_servers.replica_playwright]
+command = "node"
+args = ["C:/Users/Ignacio/Projects/replica/node_modules/@playwright/mcp/cli.js", "--headless", "--browser", "chrome", "--executable-path", "C:/Users/Ignacio/Projects/replica/.tools/browsers/chromium-1243/chrome-win64/chrome.exe", "--isolated"]
+startup_timeout_sec = 60
+
+[mcp_servers.replica_playwright.env]
+PLAYWRIGHT_BROWSERS_PATH = "C:/Users/Ignacio/Projects/replica/.tools/browsers"
+
+[mcp_servers.replica_openai_docs]
+url = "https://developers.openai.com/mcp"
