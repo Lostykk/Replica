@@ -145,7 +145,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
       {/* Mobile bottom tab bar */}
       <nav className="fixed inset-x-0 bottom-0 z-40 flex h-20 items-stretch border-t border-border/60 bg-background/90 backdrop-blur-md md:hidden">
-        {NAV_ITEMS.map(({ to, label, icon }) => {
+        {NAV_ITEMS.map(({ to, label, icon: Icon }) => {
           const active = isActive(to);
           return (
             <Link
