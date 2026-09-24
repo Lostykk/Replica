@@ -1,0 +1,72 @@
+{
+  "kind": "planning_estimate_not_invoice",
+  "currency": "USD",
+  "checkedAt": "2026-09-24",
+  "assumptions": {
+    "minutes": 90,
+    "speakingFraction": 0.5,
+    "charactersPerSpokenMinute": 750,
+    "turnsPerMinute": 3,
+    "monthlyCallsForFixedReserve": 100,
+    "recordingRetentionDays": 30,
+    "contingency": 0.2,
+    "subscriptionsPurchased": false
+  },
+  "common": {
+    "stt_regular": 0.6930000000000001,
+    "tts_plan_equivalent": 1.6875,
+    "dialogue": 0.135,
+    "emotion": 0.0378,
+    "memory": 0.0108,
+    "analysis": 0.09,
+    "worker_active": 0.083376,
+    "worker_egress_allowance": 0.01,
+    "fixed_reserve_per_call": 0.8
+  },
+  "voice": {
+    "participants": 0.09,
+    "downstream": 0.010368,
+    "recording": 0.45,
+    "storage_month": 0.00184032,
+    "one_uncached_replay_allowance": 0.007776
+  },
+  "video": {
+    "participants": 0.135,
+    "downstream": 0.162,
+    "recording": 1.8,
+    "storage_month": 0.028755000000000003,
+    "one_uncached_replay_allowance": 0.1215
+  },
+  "voiceWith20PercentReserve": 4.928952384,
+  "videoBaseWithoutAvatarWith20PercentReserve": 6.9536772,
+  "maximumAvatarRateFor15Usd": 0.0745029888888889,
+  "simliScenarios": [
+    {
+      "assumedAvatarUsdPerMinute": 0.01,
+      "rateVerified": false,
+      "total90MinutesWith20PercentReserve": 8.0336772
+    },
+    {
+      "assumedAvatarUsdPerMinute": 0.05,
+      "rateVerified": false,
+      "total90MinutesWith20PercentReserve": 12.353677199999998
+    },
+    {
+      "assumedAvatarUsdPerMinute": 0.1,
+      "rateVerified": false,
+      "total90MinutesWith20PercentReserve": 17.7536772
+    }
+  ],
+  "tavus90MinuteSensitivity": [
+    {
+      "rate": 0.31,
+      "totalWith20PercentReserve": 40.4336772,
+      "note": "Growth minimum subscription not fully allocated here; see cost-model.md"
+    },
+    {
+      "rate": 0.37,
+      "totalWith20PercentReserve": 46.913677199999995,
+      "note": "Growth minimum subscription not fully allocated here; see cost-model.md"
+    }
+  ]
+}

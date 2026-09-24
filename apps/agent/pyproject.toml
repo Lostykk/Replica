@@ -3,7 +3,10 @@ name = "replica-agent"
 version = "0.0.0"
 description = "Worker persistente de conversaciones de entrenamiento de Replica"
 requires-python = ">=3.12,<3.13"
-dependencies = []
+dependencies = [
+    "livekit-agents[cartesia,deepgram,openai,silero,simli,tavus]~=1.8",
+    "python-dotenv>=1.2.3",
+]
 
 [dependency-groups]
 dev = ["ruff", "pytest"]

@@ -1,26 +1,31 @@
 ﻿# Progreso de Réplica
 
-Actualizado: 2026-09-23 (Argentina). Fase 0: integración en validación. Fase 1: investigación iniciada por indicación del owner.
+Actualizado: 2026-09-24 UTC / 2026-09-23 Argentina.
 
-- Prompt maestro íntegro leído y conservado; SHA256 4808efc0501b1d63ad9f7689f4f68016ae4ba04815aa4379dcc9ff9a21db14c8.
-- Repositorio confirmado: https://github.com/Lostykk/Replica. Lovable y monorepo son el mismo repositorio. Frontend original en la raíz; servicios en apps y contratos en packages (ADR-0002).
-- React 19 aprobado expresamente por el owner. TanStack Start/Router conservados. No degradar a React 18.
-- Historias integradas sin reescritura en 406600a. Rama remota codex/phase0-integration; todavía no se actualizó main ni se emitió etiqueta de cierre.
-- Siete skills propias y skills oficiales instaladas; herramientas portátiles verificadas, hooks de secretos y configuración de MCP preparados.
-- Controles del bootstrap anterior aprobados: estructura, seis tests de contratos, Chromium/Firefox/WebKit y Playwright MCP. Esos resultados NO acreditan el frontend integrado.
-- Primer CI: https://github.com/Lostykk/Replica/actions/runs/35944286036. Supabase aislado en Ubuntu pasó salud, SQL, REST y MCP; se cerró al finalizar. Windows instaló el lockfile y detectó una comparación excesivamente estricta del remoto sin sufijo .git; corregida.
-- Memoria de escritorio insuficiente (~100 MiB libres sobre 7,24 GiB). Las instalaciones locales del frontend integrado quedaron parciales al cancelarlas; usar CI para validación reproducible. No se detuvieron otros proyectos ni contenedores. Supabase MCP local sigue deshabilitado (ADR-0006).
-- pnpm-lock.yaml y bun.lock regenerados. Build, tipos, lint y smoke visual del frontend integrado pendientes del CI corregido.
+## Fase 0 cerrada
 
-## Continuar
+- Repo único confirmado por el owner: https://github.com/Lostykk/Replica; Lovable https://lovable.dev/projects/6cd4796d-f047-46ff-8276-fccdc797a152.
+- Frontend en raíz, monorepo en apps/packages; historias fusionadas sin reescribir. React19 aprobado expresamente, ADR-0002 actualizado; TanStack Start/Router conservados.
+- Integración publicada en main. Tag fase-0-completa apunta al cierre documental838ba61; código verificado340e619 en https://github.com/Lostykk/Replica/actions/runs/35944864815.
+- Gate real: instalación congelada, tipos estrictos, lint sin errores, seis tests, build, Gitleaks, Chromium/Firefox/WebKit, cuatro rutas y32capturas. Supabase aislado en CI pasó ocho servicios, SQL, Auth, REST y MCP; cerrado al terminar. Evidencias en docs/evidence/fase-0.
+- Prompt maestro conservado byte-exacto (SHA2564808efc0501b1d63ad9f7689f4f68016ae4ba04815aa4379dcc9ff9a21db14c8).
+- Skills propias: design-system, humanity-engine, realtime-pipeline, supabase-conventions, qa-gates, cost-guard y security, todas bajo .agents/skills/replica-*. Skills oficiales playwright/security-best-practices desde openai/skills. Ver SETUP e historial para instalación.
+- Herramientas: Node24.19.0, pnpm11.17.0, Python3.12.10, uv0.12.18, Docker29.8.0, gh2.96.0; CLI LiveKit2.18.8, Stripe1.51.1, Gitleaks8.30.1 verificados por SHA256 en .tools; Supabase2.117.0, Twilio7.0.0 y Railway5.59.0 locales. GitHub/Railway autenticados; ningún token copiado.
+- Excepción ADR-0006: equipo con ~100MiB libres. Supabase del escritorio y su MCP siguen deshabilitados, sin tocar entornos ajenos. La instalación JS interrumpida se recuperó al resolver dependencias de Fase1; comprobar comandos locales antes de usarla. CI no acredita memoria ni salud del escritorio.
+- El shell importado sigue siendo scaffold: tema claro y llamadas aún no implementados. No se aprobó el diseño de Fase2.
 
-1. Corregir fallos reales de CI, ejecutar controles completos e inspeccionar capturas 390/1440 en Chromium/WebKit, claro/oscuro. Son baseline del shell, no aprobación de diseño Fase 2.
-2. Actualizar main sin force push tras revalidar el remoto; etiquetar fase-0-completa solo con evidencia suficiente y registrar excepción de memoria local.
-3. Completar Fase 1: arquitectura, proveedores con precios/límites actuales, presupuesto de 90 minutos, ADRs, ejemplos de entorno y herramientas para benchmark Simli/Tavus de 10 minutos en es-AR/es-MX.
-4. Pedir al owner únicamente cuentas, credenciales locales, aprobación de gasto y participación imprescindibles para mediciones reales. No presentar estimaciones como resultados.
+## Fase 1 activa — preparación completada, validación offline en curso
 
-Todavía no existe conversación real verificada, despliegue ni benchmark de proveedores. Fases posteriores pendientes.
+- architecture.md: tres canales, fronteras de seguridad, memoria, ciclo de vida y facturación.
+- provider-matrix.md: fuentes oficiales actuales, precios/límites y valores desconocidos explícitos. No confirmar Simli0,009/min; Tavus tiene tablas discrepantes; LiveAvatar20/60min no sirve para90min.
+- cost-model.md y calculadora reproducible: voz≈4,93USD/90min, video base≈6,95USD sin render; Simli a tarifa HIPOTÉTICA0,05/min≈12,35USD. Incluye20% de reserva y prorrateo conservador; no es factura ni medición.
+- ADRs0007–0009: Deepgram/OpenAI/Cartesia con workerPython, Simli candidato/Tavus echo premium, Twilio/Recall/Egress condicionados a pruebas. Modelos por tarea y secretos por app documentados en .env.example.
+- Benchmark real preparado en apps/agent/benchmarks: supervisor local, cliente web con consentimiento/grabación privada, workerLiveKit de10min Simli/Tavus es-AR/es-MX, métricas y reporte. No hubo llamadas a proveedores.
+- Dependencias Python instaladas con uv.lock. SDK webLiveKit2.22.3 y locks pnpm/bun actualizados. Cinco pruebas offline pasan: evidencia ausente, percentiles, fallo temprano, facturas sin respaldo y requisitos de acento/proveedor. Ruff pasa; CLI del worker carga y muestra ayuda.
+- Preflight muestra que faltan credenciales. Ningún gasto, suscripción, cuenta ni despliegue creado. Herramientas de benchmark no son el Motor de Humanidad completo de Fase6.
 
-## Cierre de Fase 0
+## Próximo límite: acciones que solo puede resolver el owner
 
-El gate de integración pasó para 340e619 en https://github.com/Lostykk/Replica/actions/runs/35944864815. Ver docs/evidence/fase-0/integration-gate.md y evidencias JSON/capturas. Se cierra Fase 0 con la excepción de entorno del ADR-0006; Fase 1 activa por solicitud expresa del owner. La instalación local parcial se recuperará cuando haya RAM disponible.
+Completar cuentas/claves locales de LiveKit, Deepgram, OpenAI, Cartesia, Simli y Tavus; seleccionar stock con licencia; confirmar tarifa Simli y plan/trial Tavus que permita10min; autorizar presupuesto variable del ensayo y liberar memoria para la ejecución. No pegar claves en chat. Detalle en OWNER_ACTIONS.md.
+
+Validar CI de Fase1 antes de cerrar esta entrega. Luego ejecutar cuatro llamadas reales y completar planilla/costo reconciliado. NO etiquetar fase-1-completa hasta resolver la selección y gates pendientes. Fase2 y producción pendientes.

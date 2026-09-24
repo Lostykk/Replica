@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="es"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Réplica · prueba privada de proveedores</title>
+<style>
+body{font:16px system-ui;background:#111719;color:#eef4f2;margin:0;padding:24px;max-width:880px;margin:auto}button{font:inherit;padding:12px 18px;margin:8px 8px 8px 0;cursor:pointer}video{display:block;width:100%;max-height:55vh;background:#080b0c}p{line-height:1.5}label{display:block;padding:12px 0}output{display:block;white-space:pre-wrap}a{color:#68e3b8}
+</style>
+<h1>Prueba de avatar · 10 minutos</h1>
+<p>Simulación de ventas con un personaje ficticio. Se envía tu voz a los proveedores configurados. Esta página de laboratorio no es la aplicación final.</p>
+<label><input id="consent" type="checkbox"> Acepto participar y guardar localmente audio/video para evaluar esta prueba.</label>
+<button id="start">Conectar y comenzar</button><button id="stop" disabled>Terminar y guardar</button>
+<button id="mark" disabled>Marcar defecto de labios o expresión</button>
+<output id="status" aria-live="polite">Esperando consentimiento. Usá auriculares y mantené esta pestaña visible.</output>
+<video id="avatar" autoplay playsinline muted></video><div id="audio"></div><div id="downloads"></div>
+<p>Guion: presentación → precio → objeción → detalle numérico → pausas → entusiasmo → interrupciones → contradicción → cierre. Seguí los tiempos del protocolo.</p>
+<script src="/sdk.js"></script>
+<script>
+/* Isolated lab client. RMS timings are estimates at the browser, not a hardware loopback. */
+const token="__NONCE__";
+const $=id=>document.getElementById(id);
+const events=[];
+let room, localTrack, ac, mic, remote, recorder, mix, started=0, stopped=false, heartbeat, sampling;
+let localActive=false,remoteActive=false,lastLocal=0,lastRemote=0,pendingEnd=null,interruptStart=null;
+const post=async(path,data={})=>{const r=await fetch(path,{method:"POST",headers:{"Content-Type":"application/json","X-Benchmark-Token":token},body:JSON.stringify(data)});if(!r.ok)throw Error(`HTTP ${r.status}`);return r.json();};
+const emit=(kind,values={})=>events.push({kind,at_ms:performance.now(),...values});
+function meter(track){const src=ac.createMediaStreamSource(new MediaStream([track]));const analyser=ac.createAnalyser();analyser.fftSize=512;src.connect(analyser);src.connect(mix);return analyser;}
+function rms(analyser){if(!analyser)return 0;const data=new Float32Array(analyser.fftSize);analyser.getFloatTimeDomainData(data);return Math.sqrt(data.reduce((s,x)=>s+x*x,0)/data.length);}
+function download(blob,name){const link=document.createElement("a");link.href=URL.createObjectURL(blob);link.download=name;link.textContent=`Guardar ${name}`;link.style.display="block";$("downloads").append(link);}
+function sample(){
+ const now=performance.now(), localLoud=rms(mic)>0.02, remoteLoud=rms(remote)>0.02;
+ if(localLoud){lastLocal=now;if(!localActive){localActive=true;pendingEnd=null;emit("local_start");if(remoteActive)interruptStart=now;}}
+ if(localActive&&!localLoud&&now-lastLocal>300){localActive=false;pendingEnd=lastLocal;emit("local_end",{speech_end_ms:lastLocal});}
+ if(remoteLoud){lastRemote=now;if(!remoteActive){remoteActive=true;emit("remote_start");if(pendingEnd!==null&&!localActive){emit("browser_vad_response_ms",{value:now-pendingEnd});pendingEnd=null;}}}
+ if(remoteActive&&!remoteLoud&&now-lastRemote>100){remoteActive=false;emit("remote_end");if(interruptStart!==null){emit("browser_vad_barge_in_ms",{value:Math.max(0,lastRemote-interruptStart)});interruptStart=null;}}
+ if(started&&now-started>=600000)finish();
+}
+async function finish(){
+ if(stopped)return;stopped=true;clearInterval(heartbeat);clearInterval(sampling);
+ $("stop").disabled=true;$("mark").disabled=true;
+ emit("finish");if(recorder&&recorder.state!=="inactive")recorder.stop();
+ const result={schema:1,measurement:"browser RMS threshold 0.02; validate with recorded audio; not a certified latency measurement",events};
+ download(new Blob([JSON.stringify(result,null,2)],{type:"application/json"}),"browser-metrics.json");
+ try{await post("/finish",result);$("status").textContent="Finalizada. Guardá la grabación y métricas; completá puntuación y conciliación de costos.";}catch{$("status").textContent="Conexión al supervisor cerrada. Guardá la evidencia de esta página y revisá el cierre del proveedor.";}
+ if(room)await room.disconnect();if(localTrack)localTrack.stop();if(ac)await ac.close();
+}
+$("start").onclick=async()=>{
+ if(!$("consent").checked){$("status").textContent="Hace falta aceptar la prueba para usar el micrófono.";return;}
+ $("start").disabled=true;
+ try{
+  ac=new AudioContext();await ac.resume();mix=ac.createMediaStreamDestination();
+  const local=await LivekitClient.createLocalAudioTrack({echoCancellation:true,noiseSuppression:true});localTrack=local;
+  const join=await post("/join");room=new LivekitClient.Room({adaptiveStream:true,dynacast:true});
+  room.on(LivekitClient.RoomEvent.TrackSubscribed,(track)=>{
+   if(track.kind==="audio"){const el=track.attach();$("audio").append(el);remote=meter(track.mediaStreamTrack);}
+   if(track.kind==="video"){
+    track.attach($("avatar"));emit("video_track");
+    if(!started){started=performance.now();emit("active");$("status").textContent=`En curso · ${join.locale}. La prueba termina en diez minutos.`;}
+    if(!recorder){
+     const stream=new MediaStream([track.mediaStreamTrack,...mix.stream.getAudioTracks()]);
+     const mime=["video/webm;codecs=vp8,opus","video/webm","video/mp4"].find(t=>MediaRecorder.isTypeSupported(t));
+     if(mime){const chunks=[];recorder=new MediaRecorder(stream,{mimeType:mime});recorder.ondataavailable=e=>{if(e.data.size)chunks.push(e.data);};recorder.onstop=()=>download(new Blob(chunks,{type:mime}),mime.includes("mp4")?"benchmark.mp4":"benchmark.webm");recorder.start(1000);}
+    }
+   }
+  });
+  room.on(LivekitClient.RoomEvent.Disconnected,()=>finish());
+  await room.connect(join.url,join.token);await room.startAudio();await room.localParticipant.publishTrack(local);
+  mic=meter(local.mediaStreamTrack);$("stop").disabled=false;$("mark").disabled=false;
+  heartbeat=setInterval(()=>post("/ping").then(s=>{if(s.closed)finish();}).catch(()=>finish()),3000);
+  sampling=setInterval(sample,20);$("status").textContent="Micrófono conectado. Esperando avatar…";
+ }catch(e){$("status").textContent="No se pudo conectar: "+e.message;await finish();}
+};
+$("stop").onclick=finish;$("mark").onclick=()=>emit("human_review_marker");
+window.addEventListener("pagehide",()=>{if(room)room.disconnect();});
+</script></html>
